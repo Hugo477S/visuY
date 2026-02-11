@@ -38,6 +38,64 @@ const elements = {
     totalPagesSpan: document.getElementById('total-pages')
 };
 
+// === GESTION DES FAVORIS (localStorage) ===
+const FavoritesManager = {
+    STORAGE_KEY: 'cinehub_favorites',
+
+    // Récupérer tous les favoris
+    getAll() {
+        const favorites = localStorage.getItem(this.STORAGE_KEY);
+        return favorites ? JSON.parse(favorites) : [];
+    },
+
+    // Ajouter un film aux favoris
+    add(movie) {
+        const favorites = this.getAll();
+        
+        // Vérifier si le film n'est pas déjà en favoris
+        if (!this.isFavorite(movie.id)) {
+            const favoriteMovie = {
+                id: movie.id,
+                title: movie.title,
+                poster_path: movie.poster_path,
+                vote_average: movie.vote_average,
+                release_date: movie.release_date,
+                overview: movie.overview,
+                addedAt: new Date().toISOString()
+            };
+            favorites.push(favoriteMovie);
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
+            this.updateCount();
+            return true;
+        }
+        return false;
+    },
+
+    // Supprimer un film des favoris
+    remove(movieId) {
+        let favorites = this.getAll();
+        favorites = favorites.filter(movie => movie.id !== movieId);
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
+        this.updateCount();
+    },
+
+    // Vérifier si un film est en favoris
+    isFavorite(movieId) {
+        const favorites = this.getAll();
+        return favorites.some(movie => movie.id === movieId);
+    },
+
+    // Mettre à jour le compteur dans la navbar
+    updateCount() {
+        const count = this.getAll().length;
+        const countElement = document.getElementById('nav-favorites-count');
+        if (countElement) {
+            countElement.textContent = count;
+            countElement.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+    }
+};
+
 // Noms des genres pour affichage
 const genreNames = {
     '28': 'Action',
@@ -154,6 +212,46 @@ function buildApiUrl(page) {
     return `${BASE_URL}/discover/movie?${params.toString()}`;
 }
 
+// === GESTION DES FAVORIS UI ===
+
+function toggleFavorite(movie, button) {
+    const isFavorite = FavoritesManager.isFavorite(movie.id);
+
+    if (isFavorite) {
+        FavoritesManager.remove(movie.id);
+        button.classList.remove('is-favorite');
+        button.innerHTML = '🤍 Ajouter';
+        showNotification('Film retiré des favoris', 'info');
+    } else {
+        FavoritesManager.add(movie);
+        button.classList.add('is-favorite');
+        button.innerHTML = '❤️ Retirer';
+        showNotification('Film ajouté aux favoris !', 'success');
+    }
+}
+
+function showNotification(message, type = 'success') {
+    // Supprimer les notifications existantes
+    const existingNotif = document.querySelector('.notification');
+    if (existingNotif) {
+        existingNotif.remove();
+    }
+
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Animation d'entrée
+    setTimeout(() => notification.classList.add('show'), 10);
+
+    // Suppression après 3 secondes
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
 /**
  * Affiche les films dans la grille
  */
@@ -173,11 +271,13 @@ function createMovieCard(movie) {
     const card = document.createElement('div');
     card.className = 'movie-card';
     
-    const posterUrl = movie.poster_path 
+    const isFavorite = FavoritesManager.isFavorite(movie.id);
+    
+    const posterUrl = movie.poster_path
         ? `${IMAGE_BASE_URL}${movie.poster_path}`
         : null;
 
-    const releaseYear = movie.release_date 
+    const year = movie.release_date
         ? new Date(movie.release_date).getFullYear()
         : 'N/A';
 
@@ -192,12 +292,20 @@ function createMovieCard(movie) {
                 <span class="movie-rating">
                     ⭐ ${movie.vote_average.toFixed(1)}
                 </span>
-                <span class="movie-year">${releaseYear}</span>
+                <span class="movie-year">${year}</span>
             </div>
+            <button class="btn-favorite ${isFavorite ? 'is-favorite' : ''}" data-movie-id="${movie.id}">
+                ${isFavorite ? '❤️ Retirer' : '🤍 Ajouter'}
+            </button>
         </div>
     `;
 
-    card.addEventListener('click', () => showMovieDetails(movie));
+    // Gestionnaire pour le bouton favori
+    const favoriteBtn = card.querySelector('.btn-favorite');
+    favoriteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(movie, favoriteBtn);
+    });
 
     return card;
 }
@@ -419,8 +527,10 @@ elements.nextPageBtn.addEventListener('click', () => {
     }
 });
 
+
 // === INITIALISATION ===
 
 fetchMovies(1);
+FavoritesManager.updateCount();
 
 window.removeFilter = removeFilter;

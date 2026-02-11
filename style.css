@@ -161,3 +161,23 @@ p {
   color: #e50914;
   font-weight: bold;
 } /*# sourceMappingURL=style.css.map */
+
+/* === COMPTEUR FAVORIS NAVBAR === */
+.favorites-link {
+    position: relative;
+}
+
+.favorites-count {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+}

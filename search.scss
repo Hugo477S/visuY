@@ -539,3 +539,79 @@ body {
         }
     }
 }
+
+// === BOUTON FAVORI ===
+.btn-favorite {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: 2px solid $primary-color;
+    background-color: transparent;
+    color: $text-primary;
+    border-radius: $border-radius;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+        background-color: $primary-color;
+        transform: scale(1.05);
+    }
+
+    &.is-favorite {
+        background-color: $primary-color;
+        color: white;
+    }
+}
+
+// === COMPTEUR FAVORIS NAVBAR ===
+.favorites-link {
+    position: relative;
+
+    .favorites-count {
+        display: none;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: $primary-color;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 10px;
+        min-width: 20px;
+        text-align: center;
+    }
+}
+
+// === NOTIFICATIONS ===
+.notification {
+    position: fixed;
+    top: 80px;
+    right: -300px;
+    background-color: $bg-light;
+    color: $text-primary;
+    padding: 15px 20px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    transition: right 0.3s ease;
+    border-left: 4px solid $primary-color;
+    min-width: 250px;
+
+    &.show {
+        right: 20px;
+    }
+
+    &-success {
+        border-left-color: #4caf50;
+    }
+
+    &-info {
+        border-left-color: #2196f3;
+    }
+
+    &-error {
+        border-left-color: $primary-color;
+    }
+}
