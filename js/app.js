@@ -1,6 +1,6 @@
 /**
  * APP — UI rendering & event handling
- * Depends on: api.js, scoring.js (loaded before this script)
+ * Depends on: api.js, scoring.js, favorites.js (loaded before this script)
  */
 
 // ── State ───────────────────────────────────────────────────────────────
@@ -52,6 +52,21 @@ function getScoreColor(score) {
   return "#ff1744";
 }
 
+// ── Favorites helper ────────────────────────────────────────────────────
+function toggleFav(movie, btn) {
+  if (FavoritesManager.isFavorite(movie.id)) {
+    FavoritesManager.remove(movie.id);
+    btn.classList.remove("is-fav");
+    btn.textContent = "🤍";
+    btn.title = "Ajouter aux favoris";
+  } else {
+    FavoritesManager.add(movie);
+    btn.classList.add("is-fav");
+    btn.textContent = "❤️";
+    btn.title = "Retirer des favoris";
+  }
+}
+
 // ── Rendering ───────────────────────────────────────────────────────────
 function renderMovies() {
   const weights = getWeights();
@@ -71,6 +86,7 @@ function renderMovies() {
 
     const scoreColor = getScoreColor(score);
     const explanations = generateExplanation(normalised, weights);
+    const isFav = FavoritesManager.isFavorite(movie.id);
 
     card.innerHTML = `
       <div class="card-rank">#${index + 1}</div>
@@ -82,6 +98,9 @@ function renderMovies() {
         <div class="card-score-badge" style="background:${scoreColor}">
           ${score.toFixed(1)}
         </div>
+        <button class="card-fav-btn ${isFav ? "is-fav" : ""}" title="${isFav ? "Retirer des favoris" : "Ajouter aux favoris"}">
+          ${isFav ? "❤️" : "🤍"}
+        </button>
       </div>
       <div class="card-body">
         <h3 class="card-title">${movie.title}</h3>
@@ -136,6 +155,13 @@ function renderMovies() {
       </div>
     `;
 
+    // Wire favorites button
+    const favBtn = card.querySelector(".card-fav-btn");
+    favBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFav(movie, favBtn);
+    });
+
     grid.appendChild(card);
   });
 }
@@ -185,6 +211,7 @@ function openSurprise() {
     ? `${POSTER_BASE}${movie.poster_path}`
     : "";
   const explanations = generateExplanation(normalised, weights);
+  const isFav = FavoritesManager.isFavorite(movie.id);
 
   surpriseBody.innerHTML = `
     <div class="surprise-card">
@@ -215,10 +242,24 @@ function openSurprise() {
           </ul>
         </div>
 
-        <button class="surprise-again" onclick="openSurprise()">🎲 Encore !</button>
+        <div class="surprise-actions">
+          <button class="surprise-again" onclick="openSurprise()">🎲 Encore !</button>
+          <button class="surprise-fav-btn ${isFav ? "is-fav" : ""}" id="surprise-fav">
+            ${isFav ? "❤️ Favori" : "🤍 Ajouter aux favoris"}
+          </button>
+        </div>
       </div>
     </div>
   `;
+
+  // Wire surprise fav button
+  const surpriseFavBtn = document.getElementById("surprise-fav");
+  surpriseFavBtn.addEventListener("click", () => {
+    toggleFav(movie, surpriseFavBtn);
+    surpriseFavBtn.textContent = FavoritesManager.isFavorite(movie.id)
+      ? "❤️ Favori"
+      : "🤍 Ajouter aux favoris";
+  });
 
   surpriseModal.classList.add("visible");
 }
@@ -277,6 +318,9 @@ async function init() {
   surpriseModal.addEventListener("click", (e) => {
     if (e.target === surpriseModal) closeSurprise();
   });
+
+  // Init favorites counter
+  FavoritesManager.updateCount();
 
   // First page
   await loadMovies(1);

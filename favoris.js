@@ -1,67 +1,3 @@
-// === GESTION DES FAVORIS (localStorage) ===
-const FavoritesManager = {
-    STORAGE_KEY: 'cinehub_favorites',
-
-    getAll() {
-        const favorites = localStorage.getItem(this.STORAGE_KEY);
-        return favorites ? JSON.parse(favorites) : [];
-    },
-
-    remove(movieId) {
-        let favorites = this.getAll();
-        favorites = favorites.filter(movie => movie.id !== movieId);
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
-        this.updateCount();
-    },
-
-    clearAll() {
-        localStorage.removeItem(this.STORAGE_KEY);
-        this.updateCount();
-    },
-
-    updateCount() {
-        const count = this.getAll().length;
-        const countElement = document.getElementById('nav-favorites-count');
-        if (countElement) {
-            countElement.textContent = count;
-            countElement.style.display = count > 0 ? 'inline-block' : 'none';
-        }
-        const totalElement = document.getElementById('total-favorites');
-        if (totalElement) {
-            totalElement.textContent = count;
-        }
-    },
-
-    getAverageRating() {
-        const favorites = this.getAll();
-        if (favorites.length === 0) return '-';
-        
-        const sum = favorites.reduce((acc, movie) => acc + movie.vote_average, 0);
-        return (sum / favorites.length).toFixed(1);
-    },
-
-    sort(criteria) {
-        const favorites = this.getAll();
-        
-        switch(criteria) {
-            case 'date-desc':
-                return favorites.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
-            case 'date-asc':
-                return favorites.sort((a, b) => new Date(a.addedAt) - new Date(b.addedAt));
-            case 'rating-desc':
-                return favorites.sort((a, b) => b.vote_average - a.vote_average);
-            case 'rating-asc':
-                return favorites.sort((a, b) => a.vote_average - b.vote_average);
-            case 'title-asc':
-                return favorites.sort((a, b) => a.title.localeCompare(b.title));
-            case 'title-desc':
-                return favorites.sort((a, b) => b.title.localeCompare(a.title));
-            default:
-                return favorites;
-        }
-    }
-};
-
 // === ÉLÉMENTS DOM ===
 const elements = {
     favoritesGrid: document.getElementById('favorites-grid'),
@@ -101,7 +37,7 @@ function displayFavorites() {
 function createFavoriteCard(movie) {
     const card = document.createElement('div');
     card.className = 'favorite-card';
-    
+
     const posterUrl = movie.poster_path
         ? `${IMAGE_BASE_URL}${movie.poster_path}`
         : null;
@@ -118,10 +54,10 @@ function createFavoriteCard(movie) {
 
     card.innerHTML = `
         <div class="favorite-image">
-            ${posterUrl 
-                ? `<img src="${posterUrl}" alt="${movie.title}" class="movie-poster">`
-                : `<div class="movie-poster no-image">🎬</div>`
-            }
+            ${posterUrl
+            ? `<img src="${posterUrl}" alt="${movie.title}" class="movie-poster">`
+            : `<div class="movie-poster no-image">🎬</div>`
+        }
             <button class="btn-remove" data-movie-id="${movie.id}" title="Retirer des favoris">
                 ❌
             </button>
@@ -151,7 +87,7 @@ function createFavoriteCard(movie) {
 function removeFavorite(movieId, cardElement) {
     // Animation de suppression
     cardElement.classList.add('removing');
-    
+
     setTimeout(() => {
         FavoritesManager.remove(movieId);
         displayFavorites();
@@ -166,7 +102,7 @@ function clearAllFavorites() {
     }
 
     const confirmed = confirm('Êtes-vous sûr de vouloir supprimer tous vos favoris ?');
-    
+
     if (confirmed) {
         FavoritesManager.clearAll();
         displayFavorites();

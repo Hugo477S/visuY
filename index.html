@@ -11,6 +11,21 @@
 </head>
 
 <body>
+    <!-- ─── Navbar (shared) ───────────────────────────────────────── -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🎬 CinéHub</div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="search.html">Recherche avancée</a></li>
+                <li><a href="favoris.html" class="favorites-link">
+                        ❤️ Mes favoris
+                        <span class="favorites-count" id="nav-favorites-count">0</span>
+                    </a></li>
+            </ul>
+        </div>
+    </nav>
+
     <!-- ─── Header ──────────────────────────────────────────────── -->
     <header class="header">
         <h1>🎬 CinéScore</h1>
@@ -83,9 +98,10 @@
         </div>
     </div>
 
-    <!-- Scripts: order matters (api → scoring → app) -->
+    <!-- Scripts: order matters (api → scoring → favorites → app) -->
     <script src="js/api.js"></script>
     <script src="js/scoring.js"></script>
+    <script src="js/favorites.js"></script>
     <script src="js/app.js"></script>
 </body>
 
