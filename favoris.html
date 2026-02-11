@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinéHub - Mes Favoris</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="favoris.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🎬 CinéHub</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="search.html">Recherche avancée</a></li>
+                <li><a href="favoris.html" class="favorites-link active">
+                    ❤️ Mes favoris
+                    <span class="favorites-count" id="nav-favorites-count">0</span>
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="favorites-container">
+        <header class="favorites-header">
+            <h1>❤️ Mes Films Favoris</h1>
+            <p class="subtitle">Retrouvez tous vos films préférés en un seul endroit</p>
+            <div class="favorites-stats">
+                <div class="stat">
+                    <span class="stat-number" id="total-favorites">0</span>
+                    <span class="stat-label">Films favoris</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="average-rating">-</span>
+                    <span class="stat-label">Note moyenne</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="favorites-actions">
+            <button class="btn btn-danger" id="clear-all-favorites">
+                🗑️ Tout supprimer
+            </button>
+            <div class="sort-options">
+                <label for="sort-select">Trier par :</label>
+                <select id="sort-select">
+                    <option value="date-desc">Ajout récent</option>
+                    <option value="date-asc">Ajout ancien</option>
+                    <option value="rating-desc">Note décroissante</option>
+                    <option value="rating-asc">Note croissante</option>
+                    <option value="title-asc">Titre (A-Z)</option>
+                    <option value="title-desc">Titre (Z-A)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="empty-state" class="empty-state">
+            <span class="empty-icon">💔</span>
+            <h2>Aucun film favori</h2>
+            <p>Vous n'avez pas encore ajouté de films à vos favoris.</p>
+            <a href="search.html" class="btn btn-primary">🔍 Découvrir des films</a>
+        </div>
+
+        <div id="favorites-grid" class="favorites-grid"></div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 CinéHub - Propulsé par TMDB</p>
+    </footer>
+
+    <script src="favoris.js"></script>
+</body>
+</html>
