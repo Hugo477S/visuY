@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinéHub - Recherche avancée</title>
+    <link rel="stylesheet" href="search.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🎬 CinéHub</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="search.html" class="active">Recherche avancée</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>🔍 Recherche de Films</h1>
+            <p class="subtitle">Trouvez votre prochain film préféré avec nos filtres avancés</p>
+        </header>
+
+        <!-- Section des filtres -->
+        <aside class="filters-panel">
+            <h2>Filtres de recherche</h2>
+            
+            <div class="filter-group">
+                <label for="genre-select">
+                    <span class="filter-icon">🎭</span>
+                    Genre
+                </label>
+                <select id="genre-select">
+                    <option value="">Tous les genres</option>
+                    <option value="28">Action</option>
+                    <option value="12">Aventure</option>
+                    <option value="16">Animation</option>
+                    <option value="35">Comédie</option>
+                    <option value="80">Crime</option>
+                    <option value="99">Documentaire</option>
+                    <option value="18">Drame</option>
+                    <option value="10751">Familial</option>
+                    <option value="14">Fantastique</option>
+                    <option value="36">Histoire</option>
+                    <option value="27">Horreur</option>
+                    <option value="10402">Musique</option>
+                    <option value="9648">Mystère</option>
+                    <option value="10749">Romance</option>
+                    <option value="878">Science-Fiction</option>
+                    <option value="10770">Téléfilm</option>
+                    <option value="53">Thriller</option>
+                    <option value="10752">Guerre</option>
+                    <option value="37">Western</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="year-input">
+                    <span class="filter-icon">📅</span>
+                    Année minimum
+                </label>
+                <input type="number" id="year-input" min="1900" max="2024" placeholder="Ex: 2020">
+            </div>
+
+            <div class="filter-group">
+                <label for="rating-input">
+                    <span class="filter-icon">⭐</span>
+                    Note minimum (0-10)
+                </label>
+                <input type="number" id="rating-input" min="0" max="10" step="0.5" placeholder="Ex: 7.5">
+                <div class="rating-display">
+                    <span id="rating-value">-</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label for="language-select">
+                    <span class="filter-icon">🌍</span>
+                    Langue originale
+                </label>
+                <select id="language-select">
+                    <option value="">Toutes les langues</option>
+                    <option value="fr">Français</option>
+                    <option value="en">Anglais</option>
+                    <option value="es">Espagnol</option>
+                    <option value="de">Allemand</option>
+                    <option value="it">Italien</option>
+                    <option value="ja">Japonais</option>
+                    <option value="ko">Coréen</option>
+                    <option value="zh">Chinois</option>
+                    <option value="pt">Portugais</option>
+                    <option value="ru">Russe</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button id="apply-filters" class="btn btn-primary">
+                    🔍 Rechercher
+                </button>
+                <button id="reset-filters" class="btn btn-secondary">
+                    🔄 Réinitialiser
+                </button>
+            </div>
+
+            <div class="active-filters" id="active-filters">
+                <!-- Les filtres actifs s'afficheront ici -->
+            </div>
+        </aside>
+
+        <!-- Section des résultats -->
+        <main class="results-section">
+            <div class="results-header">
+                <h2>Résultats</h2>
+                <span class="results-count" id="results-count">Chargement...</span>
+            </div>
+
+            <!-- Loading spinner -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Chargement des films...</p>
+            </div>
+
+            <!-- Message d'erreur -->
+            <div class="error-message" id="error-message" style="display: none;">
+                <span class="error-icon">⚠️</span>
+                <p>Une erreur est survenue lors du chargement des films.</p>
+            </div>
+
+            <!-- Message aucun résultat -->
+            <div class="no-results" id="no-results" style="display: none;">
+                <span class="no-results-icon">🔍</span>
+                <h3>Aucun film trouvé</h3>
+                <p>Essayez de modifier vos critères de recherche</p>
+            </div>
+
+            <!-- Grille de films -->
+            <div class="movies-grid" id="movies-grid">
+                <!-- Les films s'afficheront ici -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination" style="display: none;">
+                <button id="prev-page" class="btn-page" disabled>← Précédent</button>
+                <span class="page-info">
+                    Page <span id="current-page">1</span> sur <span id="total-pages">1</span>
+                </span>
+                <button id="next-page" class="btn-page">Suivant →</button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 CinéHub - Propulsé par TMDB</p>
+    </footer>
+
+    <script src="search.js"></script>
+</body>
+</html>

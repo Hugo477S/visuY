@@ -35,18 +35,43 @@ body {
   z-index: -1;
 }
 
-.netflix-header {
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.navbar {
+  background-color: rgba(20, 20, 20, 0.95);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #e50914;
 }
-.netflix-header .logo {
-  color: #e50914;
-  font-size: 2rem;
+.navbar .nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar .logo {
+  font-size: 1.8rem;
   font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  color: #e50914;
+}
+.navbar .nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+.navbar .nav-menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+.navbar .nav-menu a:hover, .navbar .nav-menu a.active {
+  color: #e50914;
+  background-color: rgba(229, 9, 20, 0.1);
 }
 
 #app {
@@ -89,6 +114,7 @@ p {
   font-weight: 500;
   transition: background 0.2s;
 }
+
 .btn-primary:hover {
   background-color: rgb(179.9285714286, 7.0714285714, 15.7142857143);
 }
@@ -104,6 +130,7 @@ p {
   margin-right: 10px;
   font-weight: bold;
 }
+
 .btn-secondary:hover {
   background-color: #cccccc;
 }
@@ -117,6 +144,7 @@ p {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .btn-outline:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -132,4 +160,4 @@ p {
 .status-badge {
   color: #e50914;
   font-weight: bold;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */
