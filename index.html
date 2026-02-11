@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MovieMatcher - Login</title>
+    <!-- Link to the compiled CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Test</h1>
+
+    <!-- Header / Nav -->
+    <header class="netflix-header">
+        <div class="logo">MOVIEMATCHER</div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="app">
+        
+        <!-- SECTION: Login / Landing (Visible if NOT logged in) -->
+        <section id="login-section" class="hero-container hidden">
+            <div class="hero-content">
+                <h1>Unlimited movie suggestions personalized for you.</h1>
+                <h2>Watch anywhere. Cancel anytime.</h2>
+                <p>Ready to discover? Click below to authenticate with TMDB.</p>
+                <button id="login-btn" class="btn-primary">Sign In With TMDB</button>
+            </div>
+        </section>
+
+        <!-- SECTION: Dashboard (Visible if Logged in) -->
+        <section id="dashboard-section" class="dashboard-container hidden">
+            <div class="welcome-box">
+                <h1>Welcome Back!</h1>
+                <p>Status: <span class="status-badge">Authenticated</span></p>
+                <p>Session ID: <span id="display-session-id" class="code-snippet"></span></p>
+                <div class="actions">
+                    <button class="btn-secondary">Start Matching</button>
+                    <button id="logout-btn" class="btn-outline">Sign Out</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Background Overlay for Netflix look -->
+    <div class="bg-overlay"></div>
+    <div class="bg-image"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
