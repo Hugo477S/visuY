@@ -111,14 +111,14 @@ function renderMovies() {
           <div class="metric">
             <span class="metric-label">⭐ Note</span>
             <div class="metric-bar-track">
-              <div class="metric-bar" style="width:${normalised.voteAvg * 100}%;background:var(--accent-blue)"></div>
+              <div class="metric-bar" style="width:${normalised.voteAvg * 100}%;background:var(--accent-gold)"></div>
             </div>
             <span class="metric-value">${(movie.vote_average ?? 0).toFixed(1)}</span>
           </div>
           <div class="metric">
             <span class="metric-label">🔥 Popularité</span>
             <div class="metric-bar-track">
-              <div class="metric-bar" style="width:${normalised.popularity * 100}%;background:var(--accent-orange)"></div>
+              <div class="metric-bar" style="width:${normalised.popularity * 100}%;background:var(--accent)"></div>
             </div>
             <span class="metric-value">${Math.round(movie.popularity ?? 0)}</span>
           </div>
@@ -132,7 +132,7 @@ function renderMovies() {
           <div class="metric">
             <span class="metric-label">🗳️ Votes</span>
             <div class="metric-bar-track">
-              <div class="metric-bar" style="width:${normalised.voteCount * 100}%;background:var(--accent-purple)"></div>
+              <div class="metric-bar" style="width:${normalised.voteCount * 100}%;background:var(--accent-blue)"></div>
             </div>
             <span class="metric-value">${(movie.vote_count ?? 0).toLocaleString("fr-FR")}</span>
           </div>
