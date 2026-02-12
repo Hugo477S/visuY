@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Connectez-vous avec votre compte TMDB pour une expérience personnalisée." />
+    <title>CinéHub — Connexion TMDB</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Login-specific styles */
+        .hidden {
+            display: none !important;
+        }
+
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/f841d4c7-10e1-40af-bcae-07a3f8dc141a/f6d7434e-d6de-4185-a6d4-c77a2d08737b/US-en-20220502-popsignuptwoweeks-perspective_alpha_website_medium.jpg");
+            background-size: cover;
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .login-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .login-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            color: #b3b3b3;
+        }
+
+        .login-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #b3b3b3;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #b20710;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cccccc;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #00ff00;
+        }
+
+        .status-badge {
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        .dashboard-content .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background -->
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- ─── Navbar (shared) ───────────────────────────────────────── -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🎬 CinéHub</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="search.html">Recherche avancée</a></li>
+                <li><a href="favoris.html" class="favorites-link">
+                        ❤️ Mes favoris
+                        <span class="favorites-count" id="nav-favorites-count">0</span>
+                    </a></li>
+                <li><a href="login.html" class="active">👤 Connexion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="app">
+        <!-- Login Section -->
+        <section id="login-section" class="login-content">
+            <h1>Unlimited movie suggestions personalized for you.</h1>
+            <h2>Watch anywhere. Cancel anytime.</h2>
+            <p>Ready to discover? Click below to authenticate with TMDB.</p>
+            <button id="login-btn" class="btn-primary">Sign In With TMDB</button>
+        </section>
+
+        <!-- Dashboard Section (post-login) -->
+        <section id="dashboard-section" class="dashboard-content hidden">
+            <h1>Welcome Back! 🎬</h1>
+            <p>You are authenticated. <span class="status-badge">Authenticated</span></p>
+            <p>Session ID: <span id="display-session-id" class="code-snippet"></span></p>
+            <div class="actions">
+                <a href="index.html" class="btn-secondary">🏠 Start Matching</a>
+                <a href="search.html" class="btn-secondary">🔍 Recherche avancée</a>
+                <button id="logout-btn" class="btn-outline">Logout</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/favorites.js"></script>
+    <script src="script.js"></script>
+    <script>FavoritesManager.updateCount();</script>
+</body>
+
+</html>
