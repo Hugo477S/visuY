@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CinéHub - Recherche avancée</title>
     <link rel="stylesheet" href="search.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -13,10 +15,11 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="search.html" class="active">Recherche avancée</a></li>
-                                <li><a href="favoris.html" class="favorites-link">
-                    ❤️ Mes favoris
-                    <span class="favorites-count" id="nav-favorites-count">0</span>
-                </a></li>
+                <li><a href="favoris.html" class="favorites-link">
+                        ❤️ Mes favoris
+                        <span class="favorites-count" id="nav-favorites-count">0</span>
+                    </a></li>
+                <li><a href="login.html">👤 Connexion</a></li>
             </ul>
         </div>
     </nav>
@@ -30,7 +33,7 @@
         <!-- Section des filtres -->
         <aside class="filters-panel">
             <h2>Filtres de recherche</h2>
-            
+
             <div class="filter-group">
                 <label for="genre-select">
                     <span class="filter-icon">🎭</span>
@@ -159,6 +162,8 @@
         <p>&copy; 2024 CinéHub - Propulsé par TMDB</p>
     </footer>
 
+    <script src="js/favorites.js"></script>
     <script src="search.js"></script>
 </body>
+
 </html>

@@ -1,64 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieMatcher - Login</title>
-    <!-- Link to the compiled CSS -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<html lang="fr">
 
-    <!-- Header / Nav -->
-<header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Moteur de recommandation de films intelligent basé sur les données TMDB. Personnalisez vos critères et découvrez les meilleurs films." />
+    <title>CinéScore — Moteur de Recommandation Intelligent</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <!-- ─── Navbar (shared) ───────────────────────────────────────── -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">🎬 CinéHub</div>
             <ul class="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="search.html" class="active">Recherche avancée</a></li>
-                                <li><a href="favoris.html" class="favorites-link">
-                    ❤️ Mes favoris
-                    <span class="favorites-count" id="nav-favorites-count">0</span>
-                </a></li>
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="search.html">Recherche avancée</a></li>
+                <li><a href="favoris.html" class="favorites-link">
+                        ❤️ Mes favoris
+                        <span class="favorites-count" id="nav-favorites-count">0</span>
+                    </a></li>
+                <li><a href="login.html">👤 Connexion</a></li>
             </ul>
         </div>
     </nav>
-</header>
 
+    <!-- ─── Header ──────────────────────────────────────────────── -->
+    <header class="header">
+        <h1>🎬 CinéScore</h1>
+        <p>
+            Moteur de recommandation intelligent — ajustez les pondérations pour
+            personnaliser votre classement de films.
+        </p>
+    </header>
 
-    <!-- Main Content Container -->
-    <main id="app">
-        
-        <!-- SECTION: Login / Landing (Visible if NOT logged in) -->
-        <section id="login-section" class="hero-container hidden">
-            <div class="hero-content">
-                <h1>Unlimited movie suggestions personalized for you.</h1>
-                <h2>Watch anywhere. Cancel anytime.</h2>
-                <p>Ready to discover? Click below to authenticate with TMDB.</p>
-                <button id="login-btn" class="btn-primary">Sign In With TMDB</button>
-            </div>
-        </section>
-
-        <!-- SECTION: Dashboard (Visible if Logged in) -->
-        <section id="dashboard-section" class="dashboard-container hidden">
-            <div class="welcome-box">
-                <h1>Welcome Back!</h1>
-                <p>Status: <span class="status-badge">Authenticated</span></p>
-                <p>Session ID: <span id="display-session-id" class="code-snippet"></span></p>
-                <div class="actions">
-                    <button class="btn-secondary">Start Matching</button>
-                    <button id="logout-btn" class="btn-outline">Sign Out</button>
+    <!-- ─── Weight controls ─────────────────────────────────────── -->
+    <section class="controls" id="controls">
+        <h2>⚙️ Pondérations</h2>
+        <div class="slider-grid">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label" for="w-vote-avg">⭐ Note moyenne</label>
+                    <span class="slider-value" id="v-vote-avg">5</span>
                 </div>
+                <input type="range" id="w-vote-avg" min="0" max="10" value="5" />
             </div>
-        </section>
 
-    </main>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label" for="w-popularity">🔥 Popularité</label>
+                    <span class="slider-value" id="v-popularity">5</span>
+                </div>
+                <input type="range" id="w-popularity" min="0" max="10" value="5" />
+            </div>
 
-    <!-- Background Overlay for Netflix look -->
-    <div class="bg-overlay"></div>
-    <div class="bg-image"></div>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label" for="w-recency">📅 Récence</label>
+                    <span class="slider-value" id="v-recency">5</span>
+                </div>
+                <input type="range" id="w-recency" min="0" max="10" value="5" />
+            </div>
 
-    <script src="script.js"></script>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label" for="w-vote-count">🗳️ Nombre de votes</label>
+                    <span class="slider-value" id="v-vote-count">5</span>
+                </div>
+                <input type="range" id="w-vote-count" min="0" max="10" value="5" />
+            </div>
+        </div>
+    </section>
+
+    <div class="info-bar">
+        <span id="movie-count">Chargement…</span>
+        <button id="surprise-btn">🎲 Surprise Me</button>
+    </div>
+
+    <!-- ─── Loader ──────────────────────────────────────────────── -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- ─── Movie grid ──────────────────────────────────────────── -->
+    <main id="movie-grid"></main>
+
+    <div class="footer-section">
+        <button id="load-more">Charger plus de films</button>
+    </div>
+
+    <!-- ─── Surprise modal ──────────────────────────────────────── -->
+    <div id="surprise-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="surprise-close" class="modal-close">✕</button>
+            <div id="surprise-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts: order matters (api → scoring → favorites → app) -->
+    <script src="js/api.js"></script>
+    <script src="js/scoring.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

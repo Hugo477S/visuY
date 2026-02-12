@@ -1,4 +1,4 @@
-// --- CONFIGURATION ---
+﻿// --- CONFIGURATION ---
 const API_KEY = '6f1a58b7b76a80e109f0996c57cc476d';
 const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZjFhNThiN2I3NmE4MGUxMDlmMDk5NmM1N2NjNDc2ZCIsIm5iZiI6MTc3MDgxMzgxMC42OTgsInN1YiI6IjY5OGM3OTcyZmY4MjExNTZmNjg4NWY3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Vknd18zW50dPVY6d52Hsc_FrOIw-0LflQLHoVTFJJT0'; // Warning: Exposed credential
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -53,7 +53,7 @@ async function createRequestToken() {
                 'Content-Type': 'application/json;charset=utf-8'
             }
         });
-        
+
         const data = await response.json();
 
         if (data.success) {
@@ -91,10 +91,10 @@ async function createSessionId(requestToken) {
         if (data.success) {
             // Save Session ID to Local Storage
             localStorage.setItem('tmdb_session_id', data.session_id);
-            
+
             // Clean the URL (remove ?request_token=...) so the user sees a clean bar
-            window.history.replaceState({}, document.title, "/");
-            
+            window.history.replaceState({}, document.title, "login.html");
+
             showDashboard(data.session_id);
         } else {
             console.error('Failed to create session:', data);

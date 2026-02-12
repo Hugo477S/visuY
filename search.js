@@ -38,64 +38,6 @@ const elements = {
     totalPagesSpan: document.getElementById('total-pages')
 };
 
-// === GESTION DES FAVORIS (localStorage) ===
-const FavoritesManager = {
-    STORAGE_KEY: 'cinehub_favorites',
-
-    // Récupérer tous les favoris
-    getAll() {
-        const favorites = localStorage.getItem(this.STORAGE_KEY);
-        return favorites ? JSON.parse(favorites) : [];
-    },
-
-    // Ajouter un film aux favoris
-    add(movie) {
-        const favorites = this.getAll();
-        
-        // Vérifier si le film n'est pas déjà en favoris
-        if (!this.isFavorite(movie.id)) {
-            const favoriteMovie = {
-                id: movie.id,
-                title: movie.title,
-                poster_path: movie.poster_path,
-                vote_average: movie.vote_average,
-                release_date: movie.release_date,
-                overview: movie.overview,
-                addedAt: new Date().toISOString()
-            };
-            favorites.push(favoriteMovie);
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
-            this.updateCount();
-            return true;
-        }
-        return false;
-    },
-
-    // Supprimer un film des favoris
-    remove(movieId) {
-        let favorites = this.getAll();
-        favorites = favorites.filter(movie => movie.id !== movieId);
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
-        this.updateCount();
-    },
-
-    // Vérifier si un film est en favoris
-    isFavorite(movieId) {
-        const favorites = this.getAll();
-        return favorites.some(movie => movie.id === movieId);
-    },
-
-    // Mettre à jour le compteur dans la navbar
-    updateCount() {
-        const count = this.getAll().length;
-        const countElement = document.getElementById('nav-favorites-count');
-        if (countElement) {
-            countElement.textContent = count;
-            countElement.style.display = count > 0 ? 'inline-block' : 'none';
-        }
-    }
-};
-
 // Noms des genres pour affichage
 const genreNames = {
     '28': 'Action',
@@ -145,7 +87,7 @@ async function fetchMovies(page = 1) {
 
     try {
         const url = buildApiUrl(page);
-        
+
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -159,7 +101,7 @@ async function fetchMovies(page = 1) {
         }
 
         const data = await response.json();
-        
+
         appState.movies = data.results;
         appState.currentPage = data.page;
         appState.totalPages = data.total_pages;
@@ -270,9 +212,9 @@ function displayMovies(movies) {
 function createMovieCard(movie) {
     const card = document.createElement('div');
     card.className = 'movie-card';
-    
+
     const isFavorite = FavoritesManager.isFavorite(movie.id);
-    
+
     const posterUrl = movie.poster_path
         ? `${IMAGE_BASE_URL}${movie.poster_path}`
         : null;
@@ -282,7 +224,7 @@ function createMovieCard(movie) {
         : 'N/A';
 
     card.innerHTML = `
-        ${posterUrl 
+        ${posterUrl
             ? `<img src="${posterUrl}" alt="${movie.title}" class="movie-poster">`
             : `<div class="movie-poster no-image">🎬</div>`
         }
@@ -422,7 +364,7 @@ function updateActiveFiltersDisplay() {
  * Retire un filtre spécifique
  */
 function removeFilter(filterKey) {
-    switch(filterKey) {
+    switch (filterKey) {
         case 'genre':
             elements.genreSelect.value = '';
             break;
@@ -437,7 +379,7 @@ function removeFilter(filterKey) {
             elements.languageSelect.value = '';
             break;
     }
-    
+
     applyFilters();
 }
 
